@@ -2,7 +2,7 @@
  * this file contains the header (interface) for card implementation in CardWar game
  * Assignment 2(a), Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 27.03.2023
+ * @date 28.03.2023
 */
 
 #pragma once // telling that this librarie will be included only once
@@ -41,6 +41,12 @@ namespace ariel
             bool _isWon;
 
         public:
+
+            /**
+             * defult-ctor for creating defult object
+            */
+            Player();
+
             /**
              * creating-ctor for creating new object with new parameters
              * @param string player's name
@@ -48,9 +54,21 @@ namespace ariel
             Player(string);
 
             /**
+             * copy-ctor for creating new object from existing object
+             * @param Player existing object to copy
+            */
+            Player(const Player&);
+
+            /**
+             * move-ctor for creating new object from existing object by moving it's params
+             * @param Player existing object to move
+            */
+            Player(Player&&) noexcept;
+
+            /**
              * defult-destructor for destroying (deleting) the objects
             */
-            ~Player();
+            ~Player() = default;
 
             /**
              * standard getter for getting player's name
@@ -70,7 +88,16 @@ namespace ariel
             /**
              * standard getter for getting taken cards counter
             */
-            int cardesTaken() const {return this->_cardsCounter;}      
+            int cardesTaken() const {return this->_cardsCounter;}
+
+            /**
+             * operator to perform asignmention
+            */
+            Player& operator=(const Player&);
+
+            /**
+             * operator to perform move
+            */
+            Player& operator=(Player&&) noexcept;      
     };
 };
-
