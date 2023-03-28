@@ -2,7 +2,7 @@
  * this file contains the implementation for game object functions
  * Assignment 2, Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 27.03.2023
+ * @date 28.03.2023
 */
 
 #include <iostream>
@@ -16,19 +16,35 @@ using namespace std;
 namespace ariel
 {
     // defult-ctor
-    Game::Game(Player &o1, Player &o2) : _plr1(o1), _plr2(o2), _move(FIRST_PLAYER)
+    Game::Game()
     {
-        this->_plr1 = o1;
-        this->_plr1 = o2;
+        this->_plr1 = Player("User1");
+        this->_plr2 = Player("User2");
         this->_move = FIRST_PLAYER;
     }
 
-    // defult-destructor
-    // Game::~Game()
-    // { 
-    //     delete &_plr1;
-    //     delete &_plr2;
-    // }
+    // standard-ctor
+    Game::Game(Player other1, Player other2)
+    {
+        this->_plr1 = other1;
+        this->_plr1 = other2;
+        this->_move = FIRST_PLAYER;
+    }
+
+    //
+    Game::Game(const Game &other)
+    {
+        this->_plr1 = other._plr1;
+        this->_plr1 = other._plr1;
+        this->_move = other._move;
+    }
+    
+
+    //
+    Game::Game(Game &&other) noexcept:
+        _plr1(std::move(other._plr1)),
+        _plr2(std::move(other._plr2)),
+        _move(std::move(other._move)) {}
 
     void Game::playTurn() {}
 
@@ -41,4 +57,28 @@ namespace ariel
     void Game::printLog() {}
 
     void Game::printStats() {}
+
+    // copying operator
+    Game& Game::operator=(const Game& other)
+    {
+        if (this != &other) 
+        {
+            this->_plr1 = other._plr1;
+            this->_plr2 = other._plr2;
+            this->_move = other._move;
+        }
+        return *this;
+    }
+
+    // moving operator
+    Game& Game::operator=(Game&& other) noexcept
+    {
+        if (this != &other)
+        {
+            this->_plr1 = std::move(other._plr1);
+            this->_plr2 = std::move(other._plr2);
+            this->_move = std::move(other._move);
+        }
+        return *this;
+    }
 };
