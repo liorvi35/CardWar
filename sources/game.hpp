@@ -2,7 +2,7 @@
  * this file contains the header (interface) for game implementation in CardWar game
  * Assignment 2(a), Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 27.03.2023
+ * @date 28.03.2023
 */
 
 #pragma once // telling that this librarie will be included only once
@@ -33,7 +33,7 @@ namespace ariel
             /**
              * those fields representing the players that playing the game
             */
-            Player &_plr1, &_plr2;
+            Player _plr1, _plr2;
 
             /**
              * this field represents the current move of the game
@@ -41,17 +41,35 @@ namespace ariel
             PlayerMove _move;
 
         public:
+
+            /**
+             * defult constructor for building standard object
+            */
+            Game();
+
             /**
              * creating-ctor for creating new object with new parameters
              * @param Player first player in the game
              * @param Player second player in the game
             */
-            Game(Player&, Player&);
+            Game(Player, Player);
+
+            /**
+             * copy-ctor
+             * @param Game object to copy
+            */
+            Game(const Game&);
+
+            /**
+             * move-ctor
+             * @param Game object to move
+            */
+            Game(Game&&) noexcept;
 
             /**
              * defult-destructor for destroying (deleting) the objects
             */
-            //~Game();
+            ~Game() = default;
 
             /**
              * this function is a single in-game move of one of the players
@@ -82,6 +100,16 @@ namespace ariel
              * this function is a method to print the game statistics
             */
             void printStats();
+
+            /**
+             * operator to perform asignmention
+            */
+            Game& operator=(const Game&);
+
+            /**
+             * operator to perform move
+            */
+            Game& operator=(Game&&) noexcept;  
     };  
 };
 
