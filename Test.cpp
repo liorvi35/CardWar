@@ -1,113 +1,128 @@
+/**
+ * 
+*/
+
+#include "doctest.h"
 #include <iostream>
 #include <string>
-#include "doctest.h"
 #include "sources/game.hpp"
+#include "sources/card.hpp"
+#include "sources/player.hpp"
 
 using namespace std;
 using namespace ariel;
 
 /**
- * this test for checking game starting, at start each player gets 52/2 = 26 cards (stack) and holds 0 cards (taken)
+ * 
 */
-TEST_CASE("game initialization - checking primary card division")
+TEST_CASE("starting the game, initialization check, primary division")
 {
-    // creating 2 players to the game
     Player first_player("User1");
     Player second_player("User2");
 
-    // creating the game
+    Game g(first_player, second_player);
+    
+    CHECK(first_player.stacksize() == 26);
+    CHECK(first_player.cardesTaken() == 0);
+
+    CHECK(second_player.stacksize() == 26);
+    CHECK(second_player.cardesTaken() == 0);
+}
+
+/**
+ * 
+*/
+TEST_CASE("playing the full game, using the playAll() method")
+{
+    Player first_player("User1");
+    Player second_player("User2");
+
+    Game g(first_player, second_player);
+    
+    g.playAll();
+    
+    CHECK(first_player.cardesTaken() == 26);
+    CHECK(first_player.stacksize() == 0);
+
+    CHECK(second_player.cardesTaken() == 26);
+    CHECK(second_player.stacksize() == 0);
+}
+
+/**
+ * 
+*/
+TEST_CASE("playing some (5) game steps, using the playTurn() method")
+{
+    Player first_player("User1");
+    Player second_player("User2");
+
     Game g(first_player, second_player);
 
-    // checking if players taken 0 cards (cannot be more)
-    CHECK(first_player.cardesTaken() == 0);
-    CHECK(second_player.cardesTaken() == 0);
+    int i = 0;
+    for (i = 0; i < 5; i++) 
+    {
+        g.playTurn();
+    }
 
-    // checking if players has 52/2(=26) cards
+    CHECK(first_player.cardesTaken() == 0);
+    CHECK(first_player.stacksize() == 21);
+
+    CHECK(second_player.cardesTaken() == 0);
+    CHECK(second_player.stacksize() == 21);
+}
+
+/**
+ * 
+*/
+TEST_CASE("checking the clearence of the game initiallization, reseting the game cards")
+{
+    Player first_player("User1");
+    Player second_player("User2");
+
+    Game first_g(first_player, second_player);
+    
+    first_g.playAll();
+
+    Game second_g(first_player,second_player);
+
+    CHECK(first_player.cardesTaken() == 0);
     CHECK(first_player.stacksize() == 26);
+
+    CHECK(second_player.cardesTaken() == 0);
     CHECK(second_player.stacksize() == 26);
 }
 
 /**
  * 
 */
-TEST_CASE("playing playing 7 moves")
+TEST_CASE("checking player's cards before game initialization (before starting the game)")
 {
-    // creating 2 players to the game
     Player first_player("User1");
     Player second_player("User2");
 
-    // creating the game
-    Game g(first_player, second_player);
-
-    // playing 7 player's moves in the game
-    int i = 0;
-    for(i = 0; i < 7; i++)
-    {
-        g.playTurn();
-    }
-
-    // checking if players taken 0 cards (cannot be more)
-    CHECK(first_player.cardesTaken() == 7);
-    CHECK(second_player.cardesTaken() == 7);
-
-    // checking if players has 52/2(=26) cards
-    CHECK(first_player.stacksize() == 19);
-    CHECK(second_player.stacksize() == 19);
+    CHECK((first_player.stacksize() == 0));
+    CHECK((second_player.stacksize() == 0));
+    
+    Game first_g(first_player, second_player);
 }
 
 /**
  * 
 */
-TEST_CASE("playing playing full game (26 moves) - manually")
+TEST_CASE("bad game object initiallizaition (player cannot play with himself)")
 {
-    // creating 2 players to the game
     Player first_player("User1");
-    Player second_player("User2");
 
-    // creating the game
-    Game g(first_player, second_player);
-
-    // playing 7 player's moves in the game
-    int i = 0;
-    for(i = 0; i < 26; i++)
-    {
-        g.playTurn();
-    }
-
-    // checking if players taken 0 cards (cannot be more)
-    CHECK(first_player.cardesTaken() == 26);
-    CHECK(second_player.cardesTaken() == 26);
-
-    // checking if players has 52/2(=26) cards
-    CHECK(first_player.stacksize() == 0);
-    CHECK(second_player.stacksize() == 0);
+    CHECK_THROWS(Game(first_player, first_player));
 }
 
 /**
  * 
 */
-TEST_CASE("playing playing full game (26 moves) - automatically")
+TEST_CASE("bad player initialization - player without name")
 {
-    // creating 2 players to the game
-    Player first_player("User1");
+    Player first_player("");
     Player second_player("User2");
 
-    // creating the game
-    Game g(first_player, second_player);
-
-    // playing 7 player's moves in the game
-    g.playAll();
-
-    // checking if players taken 0 cards (cannot be more)
-    CHECK(first_player.cardesTaken() == 26);
-    CHECK(second_player.cardesTaken() == 26);
-
-    // checking if players has 52/2(=26) cards
-    CHECK(first_player.stacksize() == 0);
-    CHECK(second_player.stacksize() == 0);
+    CHECK_THROWS(Game(first_player, first_player));
 }
-
-/**
- * 
-*/
-TEST_CASE("player withoun name")
