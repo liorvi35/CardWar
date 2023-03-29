@@ -1,27 +1,28 @@
 /**
  * this file contains the header (interface) for card implementation in CardWar game
- * Assignment 2(a), Software Systems 2 course at Ariel University
+ * Assignment 2, Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 28.03.2023
+ * @date 29.03.2023
 */
 
-#pragma once // telling that this librarie will be included only once
+#pragma once
 
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-namespace ariel 
-{   
+namespace ariel
+{
     /**
-     * this class representing a single player in CardWar game
+     * this class representing player object
     */
-    class Player 
+    class Player
     {
         private:
+
             /**
-             * this field is for holding player's name
+             * this field is player's name
             */
             string _pName;
 
@@ -31,22 +32,17 @@ namespace ariel
             int _stackLenght;
 
             /**
+             * this field is for holding if this player won the game
+            */
+            bool _playingGame;
+
+            /**
              * this field is for holding the amount of cards that player has won
             */
             int _cardsCounter;
 
-            /**
-             * this field is for holding if this player won the game
-            */
-            bool _isWon;
-
         public:
-
-            /**
-             * defult-ctor for creating defult object
-            */
-            Player();
-
+            
             /**
              * creating-ctor for creating new object with new parameters
              * @param string player's name
@@ -54,50 +50,28 @@ namespace ariel
             Player(string);
 
             /**
-             * copy-ctor for creating new object from existing object
-             * @param Player existing object to copy
-            */
-            Player(const Player&);
-
-            /**
-             * move-ctor for creating new object from existing object by moving it's params
-             * @param Player existing object to move
-            */
-            Player(Player&&) noexcept;
-
-            /**
-             * defult-destructor for destroying (deleting) the objects
-            */
-            ~Player() = default;
-
-            /**
              * standard getter for getting player's name
             */
-            string getPlayerName() {return this->_pName;}
+            string getPlayerName();
 
             /**
-             * standard getter for getting the game state (won/continue) of the player
+             * 
             */
-            bool getIsWon() const {return this->_isWon;}
+            bool getIfPlaying();
 
             /**
              * standard getter for getting stack size
             */
-            int stacksize() const {return this->_stackLenght;}
+            int stacksize();
 
             /**
              * standard getter for getting taken cards counter
             */
-            int cardesTaken() const {return this->_cardsCounter;}
+            int cardesTaken();
 
             /**
-             * operator to perform asignmention
+             * setter for field that indicating if player in game
             */
-            Player& operator=(const Player&);
-
-            /**
-             * operator to perform move
-            */
-            Player& operator=(Player&&) noexcept;      
+           void setIfPlaying(bool);
     };
-};
+}
