@@ -2,83 +2,59 @@
  * this file contains the implementation for game object functions
  * Assignment 2, Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 28.03.2023
+ * @date 29.03.2023
 */
 
 #include <iostream>
 #include <string>
 #include "game.hpp"
 #include "player.hpp"
-#include "card.hpp"
+#include <stdexcept>
 
 using namespace std;
 
 namespace ariel
 {
-    // defult-ctor
-    Game::Game()
+    // ctor
+    Game::Game(Player &player1, Player &player2) : _player1(player1), _player2(player2)
     {
-        this->_plr1 = Player("User1");
-        this->_plr2 = Player("User2");
-        this->_move = FIRST_PLAYER;
+        if(player1.getIfPlaying() || player2.getIfPlaying())
+        {
+            throw invalid_argument("One of players already playing the game!!!");
+        }
+        else if(player1.getPlayerName() == "" || player2.getPlayerName() == "")
+        {
+            throw invalid_argument("One of players has no name!!!");
+        }
+        else if(&player1 == &player2)
+        {
+            throw invalid_argument("Both players are the same player!!!");
+        }
+        else
+        {
+            this->_player1 = player1;
+            this->_player1.setIfPlaying(true);
+
+            this->_player2 = player2;       
+            this->_player2.setIfPlaying(true);
+        }
     }
 
-    // standard-ctor
-    Game::Game(Player other1, Player other2)
-    {
-        this->_plr1 = other1;
-        this->_plr1 = other2;
-        this->_move = FIRST_PLAYER;
-    }
-
-    //
-    Game::Game(const Game &other)
-    {
-        this->_plr1 = other._plr1;
-        this->_plr1 = other._plr1;
-        this->_move = other._move;
-    }
-    
-
-    //
-    Game::Game(Game &&other) noexcept:
-        _plr1(std::move(other._plr1)),
-        _plr2(std::move(other._plr2)),
-        _move(std::move(other._move)) {}
-
+    // play one move in game
     void Game::playTurn() {}
 
+    // print last turn of game
     void Game::printLastTurn() {}
 
+    // play all game
     void Game::playAll() {}
 
+    // print's the winner
     void Game::printWiner() {}
 
+    // print's log of full game
     void Game::printLog() {}
 
+    // print's game statistics
     void Game::printStats() {}
-
-    // copying operator
-    Game& Game::operator=(const Game& other)
-    {
-        if (this != &other) 
-        {
-            this->_plr1 = other._plr1;
-            this->_plr2 = other._plr2;
-            this->_move = other._move;
-        }
-        return *this;
-    }
-
-    // moving operator
-    Game& Game::operator=(Game&& other) noexcept
-    {
-        if (this != &other)
-        {
-            this->_plr1 = std::move(other._plr1);
-            this->_plr2 = std::move(other._plr2);
-            this->_move = std::move(other._move);
-        }
-        return *this;
-    }
-};
+}
