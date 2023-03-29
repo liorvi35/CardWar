@@ -1,7 +1,7 @@
 /**
  * this file contains test checks for CardWar game implementation
  * @author Lior Vinman
- * @date 28.03.2023
+ * @date 29.03.2023
 */
 
 #include "doctest.h"
@@ -160,4 +160,45 @@ TEST_CASE("bad player initialization - player without name")
 
     // checking
     CHECK_THROWS(Game(first_player, second_player));
+}
+
+/**
+ * 
+*/
+TEST_CASE("checking the ending of the game, cards division of players")
+{
+    bool cond = false;
+
+    // creating players
+    Player first_player("User1");
+    Player second_player("User2");
+
+    // creating game
+    Game g(first_player, second_player);
+    g.playAll();
+
+    // checking that all stack cardes were taken
+    CHECK(first_player.cardesTaken() + second_player.cardesTaken() == 52);
+
+    // checking if both players has empty stack
+    cond = first_player.stacksize() == 0 && second_player.stacksize() == 0;
+    CHECK(cond);
+}
+
+/**
+ * this test check the card usage after 2 game turns
+*/
+TEST_CASE("playing some (2) game steps, using the playTurn() method")
+{
+    // creating players
+    Player first_player("User1");
+    Player second_player("User2");
+
+    // creating game
+    Game g(first_player, second_player);
+    g.playTurn();
+    g.playTurn();
+
+    CHECK(first_player.stacksize() == 24);
+    CHECK(second_player.stacksize() == 24);
 }
