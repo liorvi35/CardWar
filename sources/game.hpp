@@ -1,115 +1,73 @@
 /**
  * this file contains the header (interface) for game implementation in CardWar game
- * Assignment 2(a), Software Systems 2 course at Ariel University
+ * Assignment 2, Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 28.03.2023
+ * @date 29.03.2023
 */
 
-#pragma once // telling that this librarie will be included only once
+#pragma once
 
-#include "player.hpp"
 #include <iostream>
 #include <string>
+#include "player.hpp"
+#include "card.hpp"
 
 using namespace std;
 
-namespace ariel 
+namespace ariel
 {
     /**
-     * this constants representing who's players is the current move
-    */
-    enum PlayerMove
-    {
-        FIRST_PLAYER = 0,
-        SECOND_PLAYER = 1
-    };
-
-    /**
-     * this class implement the CardWar game
-    */
+     * this class representing game object
+     */
     class Game
     {
         private:
             /**
-             * those fields representing the players that playing the game
-            */
-            Player _plr1, _plr2;
+             * those fields are players that playing the game
+             */
+            Player &_player1, &_player2;
 
             /**
-             * this field represents the current move of the game
+             * this field are how many game moves were done
             */
-            PlayerMove _move;
+           int _gameMove;
 
         public:
-
             /**
-             * defult constructor for building standard object
-            */
-            Game();
-
-            /**
-             * creating-ctor for creating new object with new parameters
-             * @param Player first player in the game
-             * @param Player second player in the game
-            */
-            Game(Player, Player);
-
-            /**
-             * copy-ctor
-             * @param Game object to copy
-            */
-            Game(const Game&);
-
-            /**
-             * move-ctor
-             * @param Game object to move
-            */
-            Game(Game&&) noexcept;
-
-            /**
-             * defult-destructor for destroying (deleting) the objects
-            */
-            ~Game() = default;
+             * standart-ctor for creating a new object
+             * @param Player first player of game
+             * @param Player second player of game
+             */
+            Game(Player &, Player &);
 
             /**
              * this function is a single in-game move of one of the players
-            */
+             */
             void playTurn();
 
             /**
              * this function is a method to print the last move
-            */
+             */
             void printLastTurn();
 
             /**
              * this function is a method to play the full game
-            */
+             */
             void playAll();
 
             /**
              * this function is a method to print the winner of the game
-            */
+             */
             void printWiner();
 
             /**
              * this function is a method to print the game log (all moves by order)
-            */
+             */
             void printLog();
 
             /**
              * this function is a method to print the game statistics
-            */
+             */
             void printStats();
-
-            /**
-             * operator to perform asignmention
-            */
-            Game& operator=(const Game&);
-
-            /**
-             * operator to perform move
-            */
-            Game& operator=(Game&&) noexcept;  
-    };  
-};
-
+    };
+}
