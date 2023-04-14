@@ -1,77 +1,53 @@
 /**
- * this file contains the header (interface) for card implementation in CardWar game
- * Assignment 2, Software Systems 2 course at Ariel University
+ * @brief this file contains declarations for player object; Assignment 2, Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 29.03.2023
-*/
+ * @since 14/04/2023
+ */
 
-#pragma once
+#pragma once // insuring that header will be included only once at most
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include "card.hpp"
 
 using namespace std;
 
 namespace ariel
-{
+{   
     /**
-     * this class representing player object
-    */
+     * @brief this class representing the player object 
+     */
     class Player
     {
         private:
+            string _pName; // player's name
 
-            /**
-             * this field is player's name
-            */
-            string _pName;
+            bool _playingGame; // game status
 
-            /**
-             * this field is for holding the amount of cards that left
-            */
-            int _stackLenght;
+            int _cardsCounter; // how many cards player took
 
-            /**
-             * this field is for holding if this player won the game
-            */
-            bool _playingGame;
-
-            /**
-             * this field is for holding the amount of cards that player has won
-            */
-            int _cardsCounter;
+            vector<Card> _playerHand; // player's cards hand
 
         public:
-            
-            /**
-             * creating-ctor for creating new object with new parameters
-             * @param string player's name
-            */
-            Player(string);
+            Player(string); // constructor
 
-            /**
-             * standard getter for getting player's name
-            */
-            string getPlayerName();
+            string getPlayerName(); // getter
 
-            /**
-             * 
-            */
-            bool getIfPlaying();
+            bool getIfPlaying(); // getter
 
-            /**
-             * standard getter for getting stack size
-            */
-            int stacksize();
+            int stacksize(); // getter
 
-            /**
-             * standard getter for getting taken cards counter
-            */
-            int cardesTaken();
+            int cardesTaken(); // getter
 
-            /**
-             * setter for field that indicating if player in game
-            */
-           void setIfPlaying(bool);
+            void setIfPlaying(bool); // setter
+
+            void addCard(Card); // adding card for hand
+
+            void removeCard(); // removing card from hand
+
+            Card showLastCard(); // getting card from hand
+
+            void setCardsCounter(int); // setter
     };
 }

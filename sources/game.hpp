@@ -1,73 +1,48 @@
 /**
- * this file contains the header (interface) for game implementation in CardWar game
- * Assignment 2, Software Systems 2 course at Ariel University
+ * @brief this file contains declarations for game object; Assignment 2, Software Systems 2 course at Ariel University
  * @author Lior Vinman
- * @date 29.03.2023
-*/
+ * @since 14/04/2023
+ */
 
-#pragma once
+#pragma once // insuring that header will be included only once at most
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "player.hpp"
 #include "card.hpp"
 
 using namespace std;
 
 namespace ariel
-{
+{   
     /**
-     * this class representing game object
+     * @brief this class representing the game object 
      */
     class Game
     {
         private:
-            /**
-             * those fields are players that playing the game
-             */
-            Player &_player1, &_player2;
+            Player &_player1, &_player2; // players in game
 
-            /**
-             * this field are how many game moves were done
-            */
-           int _gameMove;
+            int _gameMove, _winRateP1, _winRateP2, _drawRate; // all game statistics
+
+            string _gameLog, _currentLog; // game logs
+
+            vector<Card> _cards; // game cards
 
         public:
-            /**
-             * standart-ctor for creating a new object
-             * @param Player first player of game
-             * @param Player second player of game
-             */
-            Game(Player &, Player &);
+            Game(Player &, Player &); // constructor
 
-            /**
-             * this function is a single in-game move of one of the players
-             */
-            void playTurn();
+            void playTurn(); // play one turn in game 
 
-            /**
-             * this function is a method to print the last move
-             */
-            void printLastTurn();
+            void printLastTurn(); // print the last turn stats
 
-            /**
-             * this function is a method to play the full game
-             */
-            void playAll();
+            void playAll(); // playes the game untill the end
 
-            /**
-             * this function is a method to print the winner of the game
-             */
-            void printWiner();
+            void printWiner(); // prints the name of the winning player
 
-            /**
-             * this function is a method to print the game log (all moves by order)
-             */
-            void printLog();
+            void printLog(); // prints all the turns played one line per turn (same format as game.printLastTurn())
 
-            /**
-             * this function is a method to print the game statistics
-             */
-            void printStats();
+            void printStats(); // for each player prints basic statistics
     };
 }
